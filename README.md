@@ -20,6 +20,28 @@ public class MyNamespaceHandler extends NamespaceHandlerSupport {
 }
 ```
 
+实现解析器
+```$xslt
+public class UserBeanDefinitionParser extends AbstractSingleBeanDefinitionParser {
+    protected Class getBeanClass(Element element){
+        return User.class;
+    }
+
+    protected void doParse(Element element, BeanDefinitionBuilder bean) {
+        String userName = element.getAttribute("userName");
+        String email = element.getAttribute("email");
+
+        if (StringUtils.hasText(userName)) {
+            bean.addPropertyValue("userName", userName);
+        }
+        if (StringUtils.hasText(email)) {
+            bean.addPropertyValue("email", email);
+        }
+    }
+}
+
+```
+
 spring.handlers在META-INF目录下，内容为：
 ```$xslt
 http\://www.jpnie.com/schema/user=com.jpnie.demo.bean.MyNamespaceHandler
